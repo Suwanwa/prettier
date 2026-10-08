@@ -89,6 +89,7 @@ function handleOwnLineComment(context) {
     handleModuleSpecifiersComments,
     handleAssignmentPatternComments,
     handleMethodNameComments,
+    handleFunctionNameComments,
     handleLabeledStatementComments,
     handleNestedConditionalExpressionComments,
     handleCommentsInDestructuringPattern,
@@ -115,6 +116,7 @@ function handleEndOfLineComment(context) {
     handleSwitchStatementComments,
     handleTryStatementComments,
     handleClassComments,
+    handleFunctionNameComments,
     handleForXStatementComments,
     handleLabeledStatementComments,
     handleCallExpressionComments,
@@ -456,9 +458,26 @@ function handleFunctionNameComments({
   comment,
   precedingNode,
   enclosingNode,
+  followingNode,
+  placement,
   text,
 }) {
-  if (getNextNonSpaceNonCommentCharacter(text, locEnd(comment)) !== "(") {
+  if (
+    precedingNode &&
+    followingNode &&
+    (isFunctionLikeNode(enclosingNode) ||
+      enclosingNode?.type === "TSDeclareFunction") &&
+    precedingNode === enclosingNode.id &&
+    followingNode === enclosingNode.typeParameters
+  ) {
+    addLeadingComment(followingNode, comment);
+    return true;
+  }
+
+  if (
+    placement !== "remaining" ||
+    getNextNonSpaceNonCommentCharacter(text, locEnd(comment)) !== "("
+  ) {
     return false;
   }
   if (precedingNode && isFunctionLikeNode(enclosingNode)) {
