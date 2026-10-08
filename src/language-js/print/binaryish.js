@@ -208,6 +208,10 @@ function printBinaryishExpressions(
 
   /** @type{Doc[]} */
   let parts = [];
+  const shouldParenthesizeLeft = hasLeadingOwnLineComment(
+    options.originalText,
+    node.left,
+  );
 
   // We treat BinaryExpression and LogicalExpression nodes the same.
 
@@ -220,8 +224,11 @@ function printBinaryishExpressions(
   // precedence level and should be treated as a separate group, so
   // print them normally. (This doesn't hold for the `**` operator,
   // which is unique in that it is right-associative.)
-  // @ts-expect-error -- FIXME
-  if (shouldFlatten(node.operator, node.left.operator)) {
+  if (
+    !shouldParenthesizeLeft &&
+    // @ts-expect-error -- FIXME
+    shouldFlatten(node.operator, node.left.operator)
+  ) {
     // Flatten them out by recursively calling this function.
     parts = path.call(
       () =>
@@ -235,7 +242,14 @@ function printBinaryishExpressions(
       "left",
     );
   } else {
-    parts.push(group(print("left")));
+    const left = print("left");
+    parts.push(
+      group(
+        shouldParenthesizeLeft
+          ? ["(", indent([softline, left]), softline, ")"]
+          : left,
+      ),
+    );
   }
 
   const shouldInline = shouldInlineLogicalExpression(node);

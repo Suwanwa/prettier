@@ -1,4 +1,5 @@
 import isNonEmptyArray from "../../utilities/is-non-empty-array.js";
+import { hasLeadingOwnLineComment } from "../utilities/has-leading-own-line-comment.js";
 import { hasNode } from "../utilities/has-node.js";
 import {
   getLeftSidePathName,
@@ -25,6 +26,18 @@ function parentNeedsParentheses(path, options, needsParentheses) {
   const { node, key, parent } = path;
 
   switch (parent.type) {
+    case "BinaryExpression":
+    case "LogicalExpression":
+    case "NGPipeExpression":
+      // The binary printer wraps a left operand with an own-line comment.
+      if (
+        key === "left" &&
+        hasLeadingOwnLineComment(options.originalText, node)
+      ) {
+        return false;
+      }
+      break;
+
     case "ReturnStatement":
     case "ThrowStatement":
     case "YieldExpression":

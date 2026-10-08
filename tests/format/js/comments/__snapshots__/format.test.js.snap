@@ -1102,11 +1102,12 @@ Math.min(
 
 =====================================output=====================================
 Math.min(
-  /* $FlowFixMe(>=0.38.0 site=www) - Flow error detected during the
-   * deployment of v0.38.0. To see the error, remove this comment and
-   * run flow */
-  document.body.scrollHeight -
-    (window.scrollY + window.innerHeight) -
+  (
+    /* $FlowFixMe(>=0.38.0 site=www) - Flow error detected during the
+     * deployment of v0.38.0. To see the error, remove this comment and
+     * run flow */
+    document.body.scrollHeight - (window.scrollY + window.innerHeight)
+  ) -
     devsite_footer_height,
   0,
 )
@@ -1132,11 +1133,12 @@ Math.min(
 
 =====================================output=====================================
 Math.min(
-  /* $FlowFixMe(>=0.38.0 site=www) - Flow error detected during the
-   * deployment of v0.38.0. To see the error, remove this comment and
-   * run flow */
-  document.body.scrollHeight -
-    (window.scrollY + window.innerHeight) -
+  (
+    /* $FlowFixMe(>=0.38.0 site=www) - Flow error detected during the
+     * deployment of v0.38.0. To see the error, remove this comment and
+     * run flow */
+    document.body.scrollHeight - (window.scrollY + window.innerHeight)
+  ) -
     devsite_footer_height,
   0,
 );
@@ -5625,22 +5627,28 @@ function numericLiteralNoParen() {
 
 function logical() {
   return (
-    // Reason for 42
-    42 && 84
+    (
+      // Reason for 42
+      42
+    ) && 84
   )
 }
 
 function binary() {
   return (
-    // Reason for 42
-    42 * 84
+    (
+      // Reason for 42
+      42
+    ) * 84
   )
 }
 
 function binaryInBinaryLeft() {
   return (
-    // Reason for 42
-    42 *
+    (
+      // Reason for 42
+      42
+    ) *
       84 +
     2
   )
@@ -5648,8 +5656,10 @@ function binaryInBinaryLeft() {
 
 function binaryInBinaryRight() {
   return (
-    // Reason for 42
-    42 +
+    (
+      // Reason for 42
+      42
+    ) +
     84 * 2
   )
 }
@@ -5665,8 +5675,10 @@ function conditional() {
 
 function binaryInConditional() {
   return (
-    // Reason for 42
-    42 * 3
+    (
+      // Reason for 42
+      42
+    ) * 3
       ? 1
       : 2
   )
@@ -5992,22 +6004,28 @@ function numericLiteralNoParen() {
 
 function logical() {
   return (
-    // Reason for 42
-    42 && 84
+    (
+      // Reason for 42
+      42
+    ) && 84
   );
 }
 
 function binary() {
   return (
-    // Reason for 42
-    42 * 84
+    (
+      // Reason for 42
+      42
+    ) * 84
   );
 }
 
 function binaryInBinaryLeft() {
   return (
-    // Reason for 42
-    42 *
+    (
+      // Reason for 42
+      42
+    ) *
       84 +
     2
   );
@@ -6015,8 +6033,10 @@ function binaryInBinaryLeft() {
 
 function binaryInBinaryRight() {
   return (
-    // Reason for 42
-    42 +
+    (
+      // Reason for 42
+      42
+    ) +
     84 * 2
   );
 }
@@ -6032,8 +6052,10 @@ function conditional() {
 
 function binaryInConditional() {
   return (
-    // Reason for 42
-    42 * 3
+    (
+      // Reason for 42
+      42
+    ) * 3
       ? 1
       : 2
   );
